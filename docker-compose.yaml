@@ -1,0 +1,15 @@
+services:
+  nginx:
+    image: 'nginx:1.20.2'
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./www:/var/www
+    ports:
+      - '80:80'    
+
+  php:
+    build: ./
+    volumes:
+      - ./www:/var/www
+    healthcheck:
+      test: ["CMD-SHELL","curl -f nginx| grep works || exit 1"]
